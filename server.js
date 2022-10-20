@@ -46,6 +46,21 @@ app.get("/cpa", (req, res) => {
   }); 
 
 
+  app.get("/allStudents", function(req,res){
+    dataprep.prep().then(function(result){
+      res.send(result);
+  }).catch(function(message){
+      var myjson={};
+      myjson["message"]=message;
+      res.send(JSON.stringify(myjson));
+  });
+
+ });
+
+ app.get("/addStudent", function(req,res){
+  res.sendFile(__dirname + "/test3_views/addStudent.html");
+
+});
   
   app.use((req,res) =>{
    res.status(404).send("Error 404: page not found");
