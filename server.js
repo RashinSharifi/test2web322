@@ -14,8 +14,7 @@ var express = require("express");
      is an act of trust between me and my instructor, and especially with</p><p>my classmates...even when no\
       one is watching. IdeclareI will not break that trust.</p><p>Name:<mark> Rashin Sharifi</mark></p><p>Student\
        Number: <mark>159653210</mark></p> <br> <a href='/CPA'>Click to visit CPA students</a> <br><a href='/highGPA'>\
-       Click to see who has the highest GPA</a> <br><a href='/Stud'>All Students</a> <br>");
-       
+       Click to see who has the highest GPA</a> <br><a href='/new1'>All Students</a><br><a href='/new2'>Add a New Student</a><br>");
      
      res.send(restext);
   });
@@ -24,9 +23,9 @@ var express = require("express");
   app.get("/highGPA", (req, res) => {
     dataprep.highGPA().then(function(result){
        var temp="<h2>Highest GPA</h2><br>Student ID: "+result.studId+ 
-       "<br>name:"+result.name+
-       "<br>program:"+result.program+
-       "<br>GPA:"+result.gpa; 
+       "<br><br>name:"+result.name+
+       "<br><br>program:"+result.program+
+       "<br><br>GPA:"+result.gpa; 
         res.send(temp);
     }).catch(function(message){
         var myjson={};
@@ -46,25 +45,23 @@ app.get("/cpa", (req, res) => {
      
   }); 
 
-  app.get("/students", (req, res) => {
+
+  app.get("/allStudents", function(req,res){
     dataprep.prep().then(function(result){
-        res.send(result);
-        var temp2= "<h2>All Students</h2><br>Student ID: "
-    }).catch(function(message){
-        var myjson={};
-        myjson["message"]=message;
-        res.send(JSON.stringify(myjson));
-    });
-       
-    }); 
+      res.send(result);
+  }).catch(function(message){
+      var myjson={};
+      myjson["message"]=message;
+      res.send(JSON.stringify(myjson));
+  });
+
+ });
+
+ app.get("/addStudent", function(req,res){
+  res.sendFile(__dirname + "/test3_views/addStudent.html");
+
+});
   
-
-
-
-
-
-
-
 
   app.use((req,res) =>{
    res.status(404).send("Error 404: page not found");

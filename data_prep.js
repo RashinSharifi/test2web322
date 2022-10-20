@@ -1,4 +1,5 @@
 var cpa = [];
+var students=[];
 
 
 const fs = require('fs');
@@ -14,13 +15,31 @@ function initialize() {
         resolve();
 
     });
+   
+    
 };
+
+
+function initialize2() {
+
+    return new Promise(function (resolve, reject) {
+
+        fs.readFile('./data/students.json', (err, data) => {
+            if (err) reject("Failure to read file student.json!");
+            students = JSON.parse(data);
+            console.log(students.length);
+        });
+        resolve();
+
+    });
+};
+
 
 function prep() {
     return new Promise(function (resolve, reject) {
-        if (cpa.length == 0)
+        if (student.length == 0)
             reject("no result returned");
-        resolve(cpa);
+        resolve(student);
     });
 
 };
@@ -34,7 +53,6 @@ function cpa() {
     });
 
 };
-
 
 function highGPA() {
     return new Promise(function (resolve, reject) {
@@ -50,6 +68,36 @@ function highGPA() {
         
         resolve(max);
     });
+ 
+};
+
+function allStudents() {
+    return new Promise(function (resolve, reject) {
+        if (allStudents.length == 0)
+            reject("no result returned");
+        resolve(allStudents);
+    });
 
 };
-module.exports = {prep,cpa,initialize,highGPA};
+
+function addStudent() {
+    return new Promise(function (resolve, reject) {
+        if (addStudent.lenght == 0)
+            reject("no result returned");
+        resolve(addStudent);
+    });
+
+};
+
+function getStudent() {
+    return new Promise(function (resolve, reject) {
+        if (getStudent.length == 0)
+            reject("no result returned");
+        resolve(getStudent);
+    });
+
+};
+
+
+
+module.exports = {prep,cpa,initialize,highGPA,allStudents,addStudent,getStudent};
