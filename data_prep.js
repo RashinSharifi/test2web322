@@ -1,45 +1,17 @@
 var cpa = [];
-var students=[];
-
+var students = [];
 
 const fs = require('fs');
-function initialize() {
-
-    return new Promise(function (resolve, reject) {
-
-        fs.readFile('./data/cpa.json', (err, data) => {
-            if (err) reject("Failure to read file cpa.json!");
-            cpa = JSON.parse(data);
-            console.log(cpa.length);
-        });
-        resolve();
-
-    });
-   
-    
-};
-
-
-function initialize2() {
-
-    return new Promise(function (resolve, reject) {
-
-        fs.readFile('./data/students.json', (err, data) => {
-            if (err) reject("Failure to read file student.json!");
-            students = JSON.parse(data);
-            console.log(students.length);
-        });
-        resolve();
-
-    });
-};
-
 
 function prep() {
     return new Promise(function (resolve, reject) {
-        if (student.length == 0)
-            reject("no result returned");
-        resolve(student);
+        fs.readFile('./students.json', (err, data) => {
+            if (err) reject("unable to read file");
+            students = JSON.parse(data);
+            console.log(students.length);
+        });
+
+        resolve(students);
     });
 
 };
@@ -47,6 +19,12 @@ function prep() {
 
 function cpa() {
     return new Promise(function (resolve, reject) {
+        fs.readFile('./data/cpa.json', (err, data) => {
+            if (err) reject("Failure to read file cpa.json!");
+            cpa = JSON.parse(data);
+            console.log(cpa.length);
+        });
+
         if (cpa.length == 0)
             reject("no result returned");
         resolve(cpa);
@@ -54,50 +32,56 @@ function cpa() {
 
 };
 
+
 function highGPA() {
     return new Promise(function (resolve, reject) {
-        if (cpa.length == 0)
-            reject("no result returned");
+        if (students.length == 0)
+            reject("Failed finding the student with the highest GPA");
         
-        var max=cpa[0];
-        for(let i=0; i<cpa.length; i++){
-            if (cpa[i].gpa>max.gpa)
-                max=cpa[i];
+        var max=students[0];
+        for(let i=0; i<students.length; i++){
+            if (students[i].gpa>max.gpa)
+                max=students[i];
          
         }
         
         resolve(max);
     });
- 
+
 };
 
-function allStudents() {
+ function allStudents(){
     return new Promise(function (resolve, reject) {
-        if (allStudents.length == 0)
+        if (students.length == 0)
             reject("no result returned");
-        resolve(allStudents);
+                      
+        resolve(students);
     });
+ };
 
-};
-
-function addStudent() {
+ function addStudent(studentData) {
     return new Promise(function (resolve, reject) {
-        if (addStudent.lenght == 0)
-            reject("no result returned");
-        resolve(addStudent);
-    });
+        
+        console.log(studentData);
 
+        students.push(studentData);
+        
+        resolve();
+    });
 };
 
-function getStudent() {
-    return new Promise(function (resolve, reject) {
-        if (getStudent.length == 0)
-            reject("no result returned");
-        resolve(getStudent);
+function getStudentByID(ID) {
+    return new Promise((resolve, reject) => {
+        console.log(ID);
+         for (let i=0; i<students.length; i++) {
+            //console.log(students[i].studId);
+             if (students[i].studId == ID) {
+                 resolve(students[i]);
+             }
+         }
+
+        reject("no result returned");
     });
+}
 
-};
-
-
-
-module.exports = {prep,cpa,initialize,highGPA,allStudents,addStudent,getStudent};
+module.exports = {prep,cpa,highGPA,allStudents,addStudent,getStudentByID};
